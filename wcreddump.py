@@ -3,6 +3,7 @@
 #
 # Requires the following conditions :
 # - To be ran from a GNU/linux's terminal (python wcreddump.py)
+# - samdump2 (apt install samdump2)
 # - python >3.10 with the following libs installed : psutil, subprocess, time, dpapick3, PyCryptodome
 # - "WINHELLO2hashcat.py" in the same directory as wcreddump.py (https://github.com/Banaanhangwagen/WINHELLO2hashcat)
 # - A mounted drive with a windows os on it
