@@ -2,11 +2,13 @@
 # Automated script to dump login credentials hashes on windows disks, classic passwords and pins
 #
 # Requires the following conditions :
+# - To be ran from a GNU/linux's terminal (python wcreddump.py)
 # - python >3.10 with the following libs installed : psutil, subprocess, time, dpapick3, PyCryptodome
 # - "WINHELLO2hashcat.py" in the same directory as wcreddump.py (https://github.com/Banaanhangwagen/WINHELLO2hashcat)
 # - A mounted drive with a windows os on it
 #
 # Author : https://github.com/truerustyy
+# GitHub : https://github.com/truerustyy/wcreddump/tree/main
 
 from subprocess import check_output
 from psutil import disk_partitions
