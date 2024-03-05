@@ -1,24 +1,27 @@
 # wcreddump (windows credentials dump)
 # Automated script to dump login credentials hashes on windows disks, classic passwords and pins
 #
-# Requires the following conditions :
-# - To be ran from a GNU/linux's terminal (python wcreddump.py)
-# - samdump2 (apt install samdump2)
-# - python >3.10 with the following libs installed : psutil, subprocess, time, dpapick3, PyCryptodome
-# - "WINHELLO2hashcat.py" in the same directory as wcreddump.py (https://github.com/Banaanhangwagen/WINHELLO2hashcat)
+#Requires the following conditions :
+# - To be run from a GNU/linux's terminal (python wcreddump.py)
+# - samdump2 on system (apt install samdump2)
+# - python >=3.10 with the following libs installed : dpapick3, PyCryptodome (pip install dpapick3 PyCryptodome)
+# - WINHELLO2hashcat.py in the same directory as wcreddump.py (https://github.com/Banaanhangwagen/WINHELLO2hashcat)
 # - A mounted drive with a windows os on it
 #
 # Author : https://github.com/truerustyy
-# GitHub : https://github.com/truerustyy/wcreddump/tree/main
+# GitHub : https://github.com/truerustyy/wcreddump
 
 from subprocess import check_output
 from psutil import disk_partitions
 from time import time 
 import os
 
-### DISK SELECTION ###
+### INIT ###
+autosave = True
 scriptPath = os.path.dirname(__file__)
 disks = disk_partitions()
+
+### DISK SELECTION ###
 drives = []
 i = 0
 for disk in disks :
@@ -46,11 +49,12 @@ if mode == 0 or mode == 2 :
 	t = time()
 	print(sam)
 	os.chdir(scriptPath)
-	if not os.path.isdir(scriptPath+"/outputs") :
-		os.makedirs(scriptPath+"/outputs")
-	with open(scriptPath+f"/outputs/SAM ({drives[driveID]})-{t}", "w") as f :
-		f.write(sam)
-	print(f"succesfully dumped SAM's hash.es to \"SAM ({drives[driveID]})-{t})\"\n")
+	if autosave :
+		if not os.path.isdir(scriptPath+"/outputs") :
+			os.makedirs(scriptPath+"/outputs")
+		with open(scriptPath+f"/outputs/SAM ({drives[driveID]})-{t}", "w") as f :
+			f.write(sam)
+	print(f"succesfully dumped SAM's hash.es to \"SAM ({drives[driveID]})-{t}\"\n")
 
 ### WINHELLO DUMPING ###
 if mode == 1 or mode == 2 :
@@ -66,10 +70,11 @@ if mode == 1 or mode == 2 :
 				hashes = check_output(f"python WINHELLO2hashcat.py {cryptokeys} {masterkey} {system} {security} {ngc}", shell=True).decode()
 				t = time()
 				print(hashes)
-				if not os.path.isdir(scriptPath+"/outputs") :
-					os.makedirs(scriptPath+"/outputs")
-				with open(scriptPath+f"/outputs/WINHELLO ({drives[driveID]})-{t}", "w") as f :
-					f.write(hashes)
+				if autosave :
+					if not os.path.isdir(scriptPath+"/outputs") :
+						os.makedirs(scriptPath+"/outputs")
+					with open(scriptPath+f"/outputs/WINHELLO ({drives[driveID]})-{t}", "w") as f :
+						f.write(hashes)
 				print(f"succesfully dumped WINHELLO pin.s to \"WINHELLO ({drives[driveID]})-{t}\"")
 			except :
 				print("error on dumping, see https://github.com/Banaanhangwagen/WINHELLO2hashcat")
