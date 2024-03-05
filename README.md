@@ -1,5 +1,5 @@
 ### About tool
-On one hand, sam dumping tools are widely used, but surprisingly not much automated. On the other hand, WINHELLO pin dumping tool barely exists.
+On one hand, sam dumping tools are widely used, but surprisingly not much automated. On the other hand, WINHELLO pin dumping tools barely exists.
 This simple and lightweight python script is made to automate the process of credentials dumping for both of these cases.
 
 ### Requirements
