@@ -4,6 +4,7 @@ This simple and lightweight python script is made to automate the process of cre
 
 ### Requirements
 Requires the following conditions :
+ - samdump2 (apt install samdump2)
  - To be ran from a GNU/linux's terminal (`python wcreddump.py`)
  - python >3.10 with the following libs installed : dpapick3, PyCryptodome
  - `WINHELLO2hashcat.py` in the same directory as `wcreddump.py` (https://github.com/Banaanhangwagen/WINHELLO2hashcat)
