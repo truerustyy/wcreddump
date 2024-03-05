@@ -11,7 +11,7 @@ Requires the following conditions :
  - A mounted drive with a windows os on it
  
 ### Usage exemple
-https://github.com/truerustyy/wcreddump/blob/main/wcreddump%20exemple.png
+/home/kali/Pictures/wcreddump exemple.png
 Dumped data will be printed in terminal and saved automatically in the folder `outputs` with name of the drive and current unix time if `autosave` is set as `True`. `outputs` folder will be automatically created if inexistent.
 Dumped hashes can be cracked using JTR or hashcat with `-m 1000` for NTLM.s from SAM hive, and `-m 28100` for pin.s from WINHELLO (https://hashcat.net/wiki/doku.php?id=example_hashes)
 
