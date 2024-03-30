@@ -30,9 +30,21 @@ for disk in disks :
 		drives.append(name)
 		print(f"{i} : {name}")
 		i += 1
-driveID = int(input(f"select windows system drive (0-{i-1}) : "))
+if i == 0 :
+	print("no available drive, please make sure that a windows drive is mounted")
+	exit()
+elif i == 1 :
+	print(f"select windows system drive (0-0) : 0") 
+	driveID = 0
+else :
+	driveID = int(input(f"select windows system drive (0-{i-1}) : "))
 C = f"/media/kali/{drives[driveID]}"
 print()
+
+### DEBUG ###
+if not os.path.isdir(f"{C}/Windows/System32") :
+	print("error : selected drive is not a windows system drive")
+	exit()
 
 ### ATTACK MODE SELECTION ###
 print("0 : dump SAM hive\n1 : dump WINHELLO\n2 : dump both if possible")
