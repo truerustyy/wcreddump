@@ -17,7 +17,7 @@ Dumped data will be printed in terminal and saved automatically in the folder `o
 Dumped hashes can be cracked using JTR or hashcat with `-m 1000` for NTLM.s from SAM hive, and `-m 28100` for pin.s from WINHELLO (https://hashcat.net/wiki/doku.php?id=example_hashes)
 
 ### Other infos
-Tool tested on windows 10 21H1.
+Tool tested on windows 10 21H1 and 22H2 build 19045.4170.
 As said in https://github.com/Banaanhangwagen/WINHELLO2hashcat?tab=readme-ov-file#remarks, systems with a TPM won't work as they are protected.
 
 Provided "as is" without any warranty of any kind. Do not use for illegal purposes.
