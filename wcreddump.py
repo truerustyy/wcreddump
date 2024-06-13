@@ -49,7 +49,7 @@ if not os.path.isdir(f"{C}/Windows/System32") :
 	print("error : selected drive is not a windows system drive")
 	exit()
 if autosave and not os.path.isdir(scriptPath+outputDirectory) :
-		os.makedirs(scriptPath+outputDirectory)
+	os.makedirs(scriptPath+outputDirectory)
 
 ### ATTACK MODE SELECTION ###
 print("0 : dump SAM hive\n1 : dump WINHELLO\n2 : dump both if possible")
