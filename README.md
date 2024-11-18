@@ -22,7 +22,7 @@ If used with all default settings, dumped data will be printed in terminal and s
 Dumped hashes can be cracked using JTR or hashcat with `-m 1000` for NTLM.s from SAM hive, and `-m 28100` for pin.s from WINHELLO (https://hashcat.net/wiki/doku.php?id=example_hashes)
 
 ### Other infos
-Tool tested on windows 10 22H2 build 19045.4170.
+Tool tested on Windows 10 22H2 build 19045.4170, Windows 10 pro 22H2 build 19045.5131, Windows 11 family 22H2 22621.2215.
 As said in https://github.com/Banaanhangwagen/WINHELLO2hashcat?tab=readme-ov-file#remarks, systems with a TPM won't work as they are protected.
 
 Provided "as is" without any warranty of any kind. Do not use for illegal purposes and use at your own risks.
